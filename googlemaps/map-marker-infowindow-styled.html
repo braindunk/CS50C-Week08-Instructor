@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Google Maps API Example</title>
+    <style>
+        /* we need to dimension/size the box holding our map */
+
+        #mymap {
+            width: 100%;
+            height: 300px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- this element is where our map will be drawn -->
+    <div id="mymap">
+
+    </div>
+    <!-- we place our own custom code in a function called initMap -->
+    <script>
+        /* global google */
+
+        async function initMap() {
+            // JSON styles cannot be used together with a map ID, and advanced
+            // markers require a map ID, so this example keeps the legacy Marker.
+            const { Map, InfoWindow } = await google.maps.importLibrary("maps");
+            const { Marker } = await google.maps.importLibrary("marker");
+
+            // inside this function we can write the code to make a map
+
+            // now we can perform the steps in javascript to create the map
+
+            // step 1. define the geocoord (lat,long) for the center first
+            var geocoord1 = {
+                lat: 38.465098,
+                lng: -122.7215907
+            };
+
+            // step 2. create a google Map object
+            var map1 = new Map(
+                // tell gmap the html element to draw map inside of
+                document.getElementById('mymap'), {
+                    // provide the center in latitude and longitude
+                    center: geocoord1,
+                    // set the zoom level for the map
+                    zoom: 13,
+                    styles: [
+    {
+        "elementType": "labels",
+        "stylers": [
+            {
+                "visibility": "off"
+            },
+            {
+                "color": "#f49f53"
+            }
+        ]
+    },
+    {
+        "featureType": "landscape",
+        "stylers": [
+            {
+                "color": "#f9ddc5"
+            },
+            {
+                "lightness": -7
+            }
+        ]
+    },
+    {
+        "featureType": "road",
+        "stylers": [
+            {
+                "color": "#813033"
+            },
+            {
+                "lightness": 43
+            }
+        ]
+    },
+    {
+        "featureType": "poi.business",
+        "stylers": [
+            {
+                "color": "#645c20"
+            },
+            {
+                "lightness": 38
+            }
+        ]
+    },
+    {
+        "featureType": "water",
+        "stylers": [
+            {
+                "color": "#1994bf"
+            },
+            {
+                "saturation": -69
+            },
+            {
+                "gamma": 0.99
+            },
+            {
+                "lightness": 43
+            }
+        ]
+    },
+    {
+        "featureType": "road.local",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#f19f53"
+            },
+            {
+                "weight": 1.3
+            },
+            {
+                "visibility": "on"
+            },
+            {
+                "lightness": 16
+            }
+        ]
+    },
+    {
+        "featureType": "poi.business"
+    },
+    {
+        "featureType": "poi.park",
+        "stylers": [
+            {
+                "color": "#645c20"
+            },
+            {
+                "lightness": 39
+            }
+        ]
+    },
+    {
+        "featureType": "poi.school",
+        "stylers": [
+            {
+                "color": "#a95521"
+            },
+            {
+                "lightness": 35
+            }
+        ]
+    },
+    {},
+    {
+        "featureType": "poi.medical",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#813033"
+            },
+            {
+                "lightness": 38
+            },
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {
+        "elementType": "labels"
+    },
+    {
+        "featureType": "poi.sports_complex",
+        "stylers": [
+            {
+                "color": "#9e5916"
+            },
+            {
+                "lightness": 32
+            }
+        ]
+    },
+    {},
+    {
+        "featureType": "poi.government",
+        "stylers": [
+            {
+                "color": "#9e5916"
+            },
+            {
+                "lightness": 46
+            }
+        ]
+    },
+    {
+        "featureType": "transit.station",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "transit.line",
+        "stylers": [
+            {
+                "color": "#813033"
+            },
+            {
+                "lightness": 22
+            }
+        ]
+    },
+    {
+        "featureType": "transit",
+        "stylers": [
+            {
+                "lightness": 38
+            }
+        ]
+    },
+    {
+        "featureType": "road.local",
+        "elementType": "geometry.stroke",
+        "stylers": [
+            {
+                "color": "#f19f53"
+            },
+            {
+                "lightness": -10
+            }
+        ]
+    },
+    {},
+    {},
+    {}
+]
+                }
+            );
+
+            // step 3. create a marker that is placed on the map
+            var marker1 = new Marker({
+                // 1. the position of the marker geocoord
+                position: geocoord1,
+                // 2. which google map js var to place marker inside
+                map: map1,
+                // 3. title to show when user points at marker
+                title: 'I am a marker!'
+            });
+
+            // step 4. create the info window object using gmap api
+            var info1 = new InfoWindow({
+                content: '<h2>Welcome</h2><p>We are in the window</p>'
+            });
+
+            // step 5. define a click event on our marker to open iw
+            marker1.addListener(
+                // 1 kind of event as a string
+                'click',
+                // 2 a block of code contained in a function to run when event happens
+                function() {
+                    // tell the info window to open inside of our map
+                    info1.open(
+                        // 1 the map to open inside of
+                        map1,
+                        // 2 the geocoord/marker to open the window at
+                        marker1
+                    );
+                }
+            );
+        }
+    </script>
+    <!-- Load the Maps JavaScript API.
+         1) the API key is the key property
+         2) v: "weekly" selects the latest weekly release
+         Libraries load later with google.maps.importLibrary(). -->
+    <script>
+        (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
+            key: "AIzaSyD-_UiEig5vsSyXlMbVQ1Bfci1Ymg7Y3uw",
+            v: "weekly"
+        });
+    </script>
+    <script>
+        initMap();
+    </script>
+</body>
+
+</html>

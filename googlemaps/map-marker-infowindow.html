@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width">
+        <title>Google Maps API Example</title>
+        <style>
+            /* we need to dimension/size the box holding our map */
+            #mymap {
+                width:100%;
+                height:300px;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- this element is where our map will be drawn -->
+        <div id="mymap">
+            
+        </div>
+        <!-- Load the Maps JavaScript API.
+             1) the API key is the key property
+             2) v: "weekly" selects the latest weekly release
+             Libraries load later with google.maps.importLibrary(). -->
+        <script>
+            (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
+                key: "AIzaSyD-_UiEig5vsSyXlMbVQ1Bfci1Ymg7Y3uw",
+                v: "weekly"
+            });
+        </script>
+        <!-- we place our own custom code in a function called initMap -->
+        <script>
+            /* global google */
+            
+            async function initMap() {
+                // inside this function we can write the code to make a map
+
+                // load the maps and marker libraries from the weekly API
+                const { Map, InfoWindow } = await google.maps.importLibrary("maps");
+                const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+                
+                // now we can perform the steps in javascript to create the map
+                
+                // step 1. define the geocoord (lat,long) for the center first
+                var geocoord1 = {
+                    lat: 38.465098,
+                    lng: -122.7215907
+                };
+                
+                // step 2. create a google Map object
+                var map1 = new Map(
+                    // tell gmap the html element to draw map inside of
+                    document.getElementById('mymap'),
+                    {
+                        // provide the center in latitude and longitude
+                        center: geocoord1,
+                        // set the zoom level for the map
+                        zoom: 13,
+                        // map id is required for advanced markers
+                        mapId: "DEMO_MAP_ID"
+                    }
+                );
+                
+                // step 3. create a marker that is placed on the map
+                var marker1 = new AdvancedMarkerElement(
+                    {
+                        // 1. the position of the marker geocoord
+                        position: geocoord1,
+                        // 2. which google map js var to place marker inside
+                        map: map1,
+                        // 3. title to show when user points at marker
+                        title: 'I am a marker!',
+                        // 4. allow the marker to receive click events
+                        gmpClickable: true
+                    }
+                );
+                
+                // step 4. create the info window object using gmap api
+                var info1 = new InfoWindow(
+                    {
+                        content: '<h2>Welcome</h2><p>We are in the window!!!</p>'
+                    }
+                );
+                
+                // step 5. define a click event on our marker to open iw
+                marker1.addEventListener(
+                    // 1 kind of event as a string
+                    'gmp-click',
+                    // 2 a block of code contained in a function to run when event happens
+                    function() {
+                        // tell the info window to open inside of our map
+                        info1.open({
+                            // 1 the map to open inside of
+                            map: map1,
+                            // 2 the marker to anchor the window to
+                            anchor: marker1
+                        });
+                    }
+                );
+            }
+
+            initMap();
+        </script>
+    </body>
+</html>
